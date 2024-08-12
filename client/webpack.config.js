@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = () => {
   return {
@@ -11,15 +10,9 @@ module.exports = () => {
       main: './src/js/index.js',
       install: './src/js/install.js',
 
-      // for MiniCssExtractPlugin
-      'index': './src/index.js',
     },
     output: {
       filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'),
-
-      // for MiniCssExtractPlugin
-      filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
 
     },
@@ -32,9 +25,6 @@ module.exports = () => {
         swSrc: './src-sw.js',
         swDest: 'src-sw.js',
       }),
-      new MiniCssExtractPlugin({
-        filename: "[name].css",
-      }),
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
@@ -43,8 +33,8 @@ module.exports = () => {
         description: 'Takes notes with JavaScript syntax highlighting!',
         background_color: '#225ca3',
         theme_color: '#225ca3',
-        start_url: './',
-        publicPath: './',
+        start_url: '/',
+        publicPath: '/',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -72,18 +62,7 @@ module.exports = () => {
             },
           },
         },
-        {
-          test: /\.js$/,
-          use: ['source-map-loader'],
-          enforce: 'pre'
-        },
 
-        // Relevant config for MiniCssExtractPlugin:
-        // (the order of `use` is important)
-        {
-          test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        },
       ],
     }
   };
