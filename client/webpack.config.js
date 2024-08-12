@@ -73,7 +73,9 @@ module.exports = () => {
           },
         },
         {
-          test: /\.js$/, loader: 'source-map-loader'
+          test: /\.js$/,
+          use: ['source-map-loader'],
+          enforce: 'pre'
         },
 
         // Relevant config for MiniCssExtractPlugin:
